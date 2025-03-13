@@ -5,10 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "bin": {
-    "ink-storybook": "dist/cli/index.js",
-    "@expelledboy/ink-storybook": "dist/cli/index.js"
-  },
+  "bin": "dist/cli/index.js",
   "files": [
     "dist",
     "README.md",
