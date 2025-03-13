@@ -30,7 +30,7 @@ Create files with the `.story.tsx` extension anywhere in your project:
 import React from 'react';
 import { Box, Text } from 'ink';
 import { Button } from './Button';
-import type { StoryExport } from 'ink-storybook';
+import type { StoryExport } from '@expelledboy/ink-storybook';
 
 const storyExport: StoryExport = {
   stories: [
@@ -73,6 +73,26 @@ Or add it to your package.json scripts:
   }
 }
 ```
+
+### TypeScript Support
+
+For TypeScript support, install the required dependency:
+
+```bash
+# Install globally
+npm install -g tsx
+
+# OR install as a dev dependency
+npm install --save-dev typescript tsx
+```
+
+Then use the TypeScript-specific CLI:
+
+```bash
+npx ts-ink-storybook
+```
+
+For more details, see the [TypeScript documentation](./docs/TYPESCRIPT.md).
 
 ## Configuration
 

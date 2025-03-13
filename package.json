@@ -6,11 +6,13 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "ink-storybook": "./bin/ink-storybook.js"
+    "ink-storybook": "./bin/ink-storybook.js",
+    "ts-ink-storybook": "./bin/ts-ink-storybook.js"
   },
   "files": [
     "dist",
     "bin",
+    "docs",
     "README.md",
     "LICENSE"
   ],
@@ -29,14 +31,14 @@
   },
   "dependencies": {
     "ink": "^4.4.1",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@swc-node/register": "^1.8.0",
     "@swc/core": "^1.11.9",
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",
-    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "peerDependencies": {

@@ -7,6 +7,7 @@ import { render } from "ink";
 import React from "react";
 import { StorybookApp } from "../runtime/StorybookApp.js";
 import { loadConfigFile } from "../config/loadConfig.js";
+import { pathToFileURL } from "node:url";
 
 // Define CLI arguments
 const { values } = parseArgs({
@@ -50,75 +51,88 @@ const cwd = process.cwd();
 const storiesDir = values.stories || "src";
 const configPath = values.config || "storybook/config.js";
 
-// Find story files using native fs instead of glob
-async function findStoryFiles(dir: string): Promise<string[]> {
+// Find story files in the specified directory
+function findStoryFiles(dir: string): string[] {
   const storyFiles: string[] = [];
+  const items = fs.readdirSync(dir);
 
-  async function scanDir(directory: string) {
-    try {
-      const files = await fs.promises.readdir(directory, {
-        withFileTypes: true,
-      });
+  items.forEach((item) => {
+    const itemPath = path.join(dir, item);
+    const stat = fs.statSync(itemPath);
 
-      for (const file of files) {
-        const fullPath = path.join(directory, file.name);
-
-        if (file.isDirectory()) {
-          // Recursively scan subdirectories
-          await scanDir(fullPath);
-        } else if (
-          /\.story\.(tsx|jsx|ts|js)$/.test(file.name) &&
-          !file.name.startsWith(".")
-        ) {
-          // Add matching story files
-          storyFiles.push(fullPath);
-        }
-      }
-    } catch (err) {
-      console.warn(`Could not scan directory ${directory}:`, err);
+    if (stat.isDirectory()) {
+      // Recursively search in directories
+      storyFiles.push(...findStoryFiles(itemPath));
+    } else if (
+      (stat.isFile() && item.endsWith(".story.tsx")) ||
+      item.endsWith(".story.jsx") ||
+      item.endsWith(".story.js")
+    ) {
+      storyFiles.push(itemPath);
     }
-  }
+  });
 
-  await scanDir(dir);
   return storyFiles;
 }
 
-// Find and run stories
-(async () => {
+// Load story files
+async function loadStoryFile(filePath: string): Promise<any> {
   try {
-    // Load config first
-    const config = await loadConfigFile(path.resolve(cwd, configPath));
+    // For ESM JavaScript files
+    const fileUrl = pathToFileURL(filePath).href;
 
-    // Merge cli args with config
-    const mergedConfig = {
-      ...config,
-      storiesDir: values.stories || config.storybookLocation,
-    };
+    try {
+      const module = await import(fileUrl);
+      return module.default;
+    } catch (importError) {
+      console.error(`Error importing story file ${filePath}:`, importError);
 
-    // Then find story files
-    const storyPattern = path.join(cwd, storiesDir);
+      // If we're in a CommonJS environment, try require as fallback
+      if (typeof require !== "undefined") {
+        return require(filePath).default;
+      }
+
+      return null;
+    }
+  } catch (error) {
+    console.error(`Error loading story file ${filePath}:`, error);
+    return null;
+  }
+}
+
+// Find and run stories
+async function run() {
+  try {
+    // Get config
+    const config = await loadConfigFile(configPath);
+
+    // Find story files
+    const storyPattern = values.stories || config.storybookLocation || "src";
+
     console.log(`Looking for stories in: ${storyPattern}`);
 
-    const files = await findStoryFiles(storyPattern);
+    const files = findStoryFiles(storyPattern);
 
     if (files.length === 0) {
       console.log(
         "No story files found. Create files with .story.tsx extension."
       );
-      process.exit(1);
+      process.exit(0);
     }
 
     console.log(`Found ${files.length} story files.`);
 
-    // Start the storybook app
+    // Render the Storybook app with the file paths
     render(
       React.createElement(StorybookApp, {
-        storyFiles: files,
-        config: mergedConfig,
+        storyFiles: files, // Pass the array of file paths
+        config,
       })
     );
   } catch (err) {
-    console.error("Error starting storybook:", err);
+    console.error("Failed to start ink-storybook:", err);
     process.exit(1);
   }
-})();
+}
+
+run();
