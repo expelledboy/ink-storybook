@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Override dev settings for build
+    "allowImportingTsExtensions": false,
+    "noEmit": false,
+    "outDir": "dist",
+    "declaration": true,
+    
+    // Optimize for publishing
+    "sourceMap": true,
+    "removeComments": false
+  },
+  "exclude": ["node_modules", "dist", "examples", "tests", "**/*.test.ts", "**/*.spec.ts"]
+} 

@@ -1,12 +1,13 @@
 {
-  "name": "ink-storybook",
+  "name": "@expelledboy/ink-storybook",
   "version": "0.1.0",
   "description": "A storybook-like library for Ink terminal applications",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "ink-storybook": "dist/cli/index.js"
+    "ink-storybook": "dist/cli/index.js",
+    "@expelledboy/ink-storybook": "dist/cli/index.js"
   },
   "files": [
     "dist",
@@ -14,11 +15,17 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "dev": "tsc -w",
     "prepublishOnly": "npm run build",
     "example": "sh ./run-example.sh",
-    "test": "CI=true bash ./tests/run-test.sh"
+    "test": "CI=true bash ./tests/run-test.sh",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "postbuild": "chmod +x dist/cli/index.js",
+    "prepare": "npm run build",
+    "version": "npm run build",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "ink": "^4.4.1",
@@ -45,6 +52,14 @@
     "components",
     "ui"
   ],
-  "author": "",
-  "license": "MIT"
+  "author": "expelledboy <102334+expelledboy@users.noreply.github.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expelledboy/ink-storybook.git"
+  },
+  "bugs": {
+    "url": "https://github.com/expelledboy/ink-storybook/issues"
+  },
+  "homepage": "https://github.com/expelledboy/ink-storybook#readme"
 }
