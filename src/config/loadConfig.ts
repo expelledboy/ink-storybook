@@ -1,4 +1,5 @@
 import fs from "fs";
+import { pathToFileURL } from "url";
 
 /**
  * Default storybook configuration
@@ -77,7 +78,7 @@ export async function loadConfigFile(
     }
 
     // Use dynamic import for ES modules compatibility
-    const configModule = await import(configPath);
+    const configModule = await import(pathToFileURL(configPath).href);
     const userConfig = configModule.default || configModule;
 
     // Merge with defaults

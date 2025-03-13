@@ -2,6 +2,8 @@
 
 A storybook-like library for Ink terminal applications.
 
+![Git Workflow](docs/t-rec.gif)
+
 ## Features
 
 - 📚 Browse and view your components in a storybook interface
