@@ -8,12 +8,12 @@
   "bin": "./dist/cli/index.js",
   "exports": {
     ".": {
-      "import": "./dist/src/index.js",
-      "types": "./dist/src/index.d.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./cli": {
-      "import": "./dist/src/cli/index.js",
-      "types": "./dist/src/cli/index.d.ts"
+      "import": "./dist/cli/index.js",
+      "types": "./dist/cli/index.d.ts"
     },
     "./ts": {
       "import": "./bin/ts-ink-storybook.ts",

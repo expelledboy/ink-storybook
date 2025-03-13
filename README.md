@@ -16,10 +16,21 @@ A storybook-like library for Ink terminal applications.
 ## Installation
 
 ```bash
-npm install ink-storybook
-# or
-yarn add ink-storybook
+npm install --save-dev @expelledboy/ink-storybook
 ```
+
+```bash
+yarn add --dev @expelledboy/ink-storybook
+```
+
+```bash
+bun add -D @expelledboy/ink-storybook
+```
+
+```bash
+npx @expelledboy/ink-storybook
+```
+
 
 ## Quick Start
 
@@ -68,36 +79,16 @@ npx @expelledboy/ink-storybook
 
 Or add it to your package.json scripts:
 
-```json
+```jsonc
 {
   "scripts": {
-    "storybook": "@expelledboy/ink-storybook"
+    // installed
+    "storybook": "ink-storybook",
+    // Using npx
+    "storybook": "npx @expelledboy/ink-storybook"
   }
 }
 ```
-
-### TypeScript Support
-
-ink-storybook now has built-in TypeScript support! You can use it with `.story.tsx` files without any extra setup.
-
-```bash
-# Run directly using the package
-npx @expelledboy/ink-storybook -s src
-
-# Or with a script in package.json
-"scripts": {
-  "storybook": "ink-storybook -s src"
-}
-```
-
-If you want to use the TypeScript entry point directly, you can also use:
-
-```bash
-# Using the TypeScript entry point
-npx tsx @expelledboy/ink-storybook/ts -s src
-```
-
-For more details, see the [TypeScript documentation](./docs/TYPESCRIPT.md).
 
 ## Configuration
 
