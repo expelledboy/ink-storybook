@@ -5,9 +5,12 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "bin": "dist/cli/index.js",
+  "bin": {
+    "ink-storybook": "./bin/ink-storybook.js"
+  },
   "files": [
     "dist",
+    "bin",
     "README.md",
     "LICENSE"
   ],
