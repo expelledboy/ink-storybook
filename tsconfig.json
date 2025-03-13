@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    // TypeScript and JavaScript settings
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "jsx": "react-jsx",
+    "lib": ["ESNext", "DOM"],
+    "moduleDetection": "force",
+    "allowJs": true,
+    
+    // Module resolution settings
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    
+    // For development
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+
+    // Type checking and safety
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Optional strict settings
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noPropertyAccessFromIndexSignature": false
+  },
+  "include": ["src", "tests"]
+}

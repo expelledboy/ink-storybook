@@ -1,0 +1,50 @@
+{
+  "name": "ink-storybook",
+  "version": "0.1.0",
+  "description": "A storybook-like library for Ink terminal applications",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "ink-storybook": "dist/cli/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "prepublishOnly": "npm run build",
+    "example": "sh ./run-example.sh",
+    "test": "CI=true bash ./tests/run-test.sh"
+  },
+  "dependencies": {
+    "ink": "^4.4.1",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@swc-node/register": "^1.8.0",
+    "@swc/core": "^1.11.9",
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "ink": ">=3.0.0",
+    "react": ">=17.0.0"
+  },
+  "keywords": [
+    "ink",
+    "storybook",
+    "react",
+    "terminal",
+    "cli",
+    "components",
+    "ui"
+  ],
+  "author": "",
+  "license": "MIT"
+}
