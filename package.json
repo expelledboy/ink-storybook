@@ -5,9 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "bin": {
-    "ink-storybook": "./bin/ink-storybook.js"
-  },
+  "bin": "./dist/cli/index.js",
   "exports": {
     ".": {
       "import": "./dist/src/index.js",
@@ -37,16 +35,16 @@
     "test": "CI=true bash ./tests/run-test.sh",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
+    "postbuild": "chmod +x dist/cli/index.js",
     "prepare": "npm run build",
     "version": "npm run build",
     "postversion": "git push && git push --tags",
-    "storybook:ts": "npx tsx ./bin/ts-ink-storybook.ts",
-    "install-ts-deps": "npm install --save-dev typescript tsx"
+    "storybook:ts": "npx . -s examples"
   },
   "dependencies": {
-    "ink": "^4.4.1",
-    "react": "^18.2.0",
-    "ts-node": "^10.9.2"
+    "ink": ">=3.0.0",
+    "react": ">=17.0.0",
+    "tsx": "^4.19.3"
   },
   "devDependencies": {
     "@swc-node/register": "^1.8.0",

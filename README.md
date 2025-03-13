@@ -78,28 +78,23 @@ Or add it to your package.json scripts:
 
 ### TypeScript Support
 
-For TypeScript support, install the required dependencies:
+ink-storybook now has built-in TypeScript support! You can use it with `.story.tsx` files without any extra setup.
 
 ```bash
-npm install --save-dev typescript tsx
+# Run directly using the package
+npx @expelledboy/ink-storybook -s src
+
+# Or with a script in package.json
+"scripts": {
+  "storybook": "ink-storybook -s src"
+}
 ```
 
-Then run the storybook with tsx:
+If you want to use the TypeScript entry point directly, you can also use:
 
 ```bash
-# When installed as a dependency in your project
-npx tsx ./node_modules/@expelledboy/ink-storybook/src/bin/ts-ink-storybook.ts -s src
-
-# Or with the package.json exports (after npm publish)
+# Using the TypeScript entry point
 npx tsx @expelledboy/ink-storybook/ts -s src
-
-# Alternative approach
-npx tsx ./node_modules/@expelledboy/ink-storybook/src/cli/index.ts -s src
-
-# Or add to your package.json
-"scripts": {
-  "storybook:ts": "npx tsx ./node_modules/@expelledboy/ink-storybook/src/bin/ts-ink-storybook.ts -s src"
-}
 ```
 
 For more details, see the [TypeScript documentation](./docs/TYPESCRIPT.md).

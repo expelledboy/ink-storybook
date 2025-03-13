@@ -2,51 +2,25 @@
 
 ink-storybook fully supports TypeScript story files (`.story.tsx`).
 
-## Setup for TypeScript Support
+## Built-in TypeScript Support
 
-To use TypeScript with ink-storybook, you need to install the `tsx` package either globally or as a dev dependency:
-
-```bash
-# Install globally
-npm install -g tsx
-
-# OR install as a dev dependency
-npm install --save-dev typescript tsx
-```
-
-## Running With TypeScript Support
-
-### Recommended approach (v0.1.4+)
-
-The simplest way to run ink-storybook with TypeScript is to use our built-in TypeScript entry point:
+As of version 0.1.6, ink-storybook comes with TypeScript support out of the box. You can use it with `.story.tsx` files without any extra setup:
 
 ```bash
-# When installed as a dependency in your project
-npx tsx ./node_modules/@expelledboy/ink-storybook/bin/ts-ink-storybook.ts -s src
-
-# Or with the package.json exports (after npm publish)
-npx tsx @expelledboy/ink-storybook/ts -s src
+# Run directly with TypeScript support
+npx @expelledboy/ink-storybook -s src
 ```
 
-These methods work with both local and global installations and are the most direct way to use TypeScript with ink-storybook.
+The CLI will automatically handle TypeScript files thanks to the built-in `tsx` integration.
 
-### Alternative approaches
-
-You can also run the CLI directly:
-
-```bash
-# From your project root
-npx tsx ./node_modules/@expelledboy/ink-storybook/src/cli/index.ts -s src
-```
-
-### Using a package.json script (Recommended):
+### Using a package.json script:
 
 Add a script to your package.json for convenience:
 
 ```json
 {
   "scripts": {
-    "storybook:ts": "npx tsx ./node_modules/@expelledboy/ink-storybook/bin/ts-ink-storybook.ts -s src"
+    "storybook": "ink-storybook -s src"
   }
 }
 ```
@@ -54,20 +28,18 @@ Add a script to your package.json for convenience:
 Then simply run:
 
 ```bash
-npm run storybook:ts
+npm run storybook
 ```
-
-The CLI supports all the same options as the regular ink-storybook command.
 
 ## How it Works
 
-Using `tsx` allows you to:
+ink-storybook uses the `tsx` package internally to:
 
 1. Write your story files in TypeScript (`.story.tsx`)
 2. Import TypeScript components directly in your stories
 3. Use TypeScript for your configuration files
 
-The `tsx` package provides a runtime TypeScript execution environment, similar to `ts-node` but with better ESM support, making it ideal for modern TypeScript applications.
+This provides a seamless experience similar to using JavaScript files, with no separate compilation step required.
 
 ## Creating TypeScript Story Files
 
@@ -125,27 +97,3 @@ const config: StorybookConfig = {
 
 export default config;
 ```
-
-## Troubleshooting
-
-If you encounter issues with TypeScript files:
-
-1. Verify that `tsx` is installed globally or as a dev dependency in your project
-2. If you see a "tsx: command not found" error, install it with `npm install -g tsx` or `npm install --save-dev tsx`
-3. Try providing an absolute path to your stories directory:
-
-```bash
-npx tsx @expelledboy/ink-storybook/ts -s $PWD/src
-```
-
-4. When using a TypeScript configuration file, use the `.ts` extension in your path:
-
-```bash
-npx tsx @expelledboy/ink-storybook/ts -c storybook/config.ts
-```
-
-5. If you're using the package in a development environment (like when contributing to ink-storybook), you can run:
-
-```bash
-npx tsx ./bin/ts-ink-storybook.ts -s examples
-``` 

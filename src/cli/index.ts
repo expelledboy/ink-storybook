@@ -9,6 +9,9 @@ import { StorybookApp } from "../runtime/StorybookApp.js";
 import { loadConfigFile } from "../config/loadConfig.js";
 import { pathToFileURL } from "node:url";
 
+// Register tsx
+import "tsx";
+
 // Define CLI arguments
 const { values } = parseArgs({
   options: {
