@@ -6,8 +6,21 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "ink-storybook": "./bin/ink-storybook.js",
-    "ts-ink-storybook": "./bin/ts-ink-storybook.js"
+    "ink-storybook": "./bin/ink-storybook.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./cli": {
+      "import": "./dist/cli/index.js",
+      "types": "./dist/cli/index.d.ts"
+    },
+    "./ts": {
+      "import": "./bin/ts-ink-storybook.ts",
+      "types": "./bin/ts-ink-storybook.ts"
+    }
   },
   "files": [
     "dist",
@@ -24,10 +37,11 @@
     "test": "CI=true bash ./tests/run-test.sh",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
-    "postbuild": "chmod +x dist/cli/index.js",
     "prepare": "npm run build",
     "version": "npm run build",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "storybook:ts": "npx tsx ./bin/ts-ink-storybook.ts",
+    "install-ts-deps": "npm install --save-dev typescript tsx"
   },
   "dependencies": {
     "ink": "^4.4.1",

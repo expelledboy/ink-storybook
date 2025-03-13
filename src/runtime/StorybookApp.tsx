@@ -14,6 +14,7 @@ import type {
   StoryExport,
   Story,
 } from "../types.js";
+import { pathToFileURL } from "url";
 
 /**
  * Convert file path to a display name
@@ -52,7 +53,7 @@ export function StorybookApp({ storyFiles, config }: StorybookAppProps) {
         for (const filePath of storyFiles) {
           try {
             // Dynamically import the story file
-            const imported = await import(filePath);
+            const imported = await import(pathToFileURL(filePath).href);
             const storyExport: StoryExport = imported.default || imported;
 
             if (!storyExport.stories || !Array.isArray(storyExport.stories)) {
