@@ -152,10 +152,10 @@ Options:
 
 Navigate through your storybook with keyboard controls:
 
-- **Shift+Down Arrow**: Next story
-- **Shift+Up Arrow**: Previous story
-- **Down Arrow**: Next file
-- **Up Arrow**: Previous file
+- **Shift+Down**: Next story
+- **Shift+Up**: Previous story
+- **Shift+Right**: Next file
+- **Shift+Left**: Previous file
 - **Ctrl+C**: Exit
 
 You can customize these key bindings in your configuration file.

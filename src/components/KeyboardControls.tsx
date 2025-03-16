@@ -8,39 +8,20 @@ import type { KeyboardControlsProps } from "../types.js";
  * Renders a consistent set of keyboard controls to help users navigate through stories
  * Users can press Ctrl+C to exit (standard terminal behavior)
  */
-export const KeyboardControls: React.FC<KeyboardControlsProps> = ({
-  nextKeys = "Shift+→",
-  prevKeys = "Shift+←",
-  nextFileKeys = "→",
-  prevFileKeys = "←",
-}) => {
+export const KeyboardControls: React.FC<KeyboardControlsProps> = (keys) => {
   // Define each control with its keys and action description
   type Control = {
     keys: string;
     action: string;
   };
 
-  const controls: Control[] = [];
-
-  // Only add controls for defined keys
-  if (nextKeys) {
-    controls.push({ keys: nextKeys, action: "Next story" });
-  }
-
-  if (prevKeys) {
-    controls.push({ keys: prevKeys, action: "Previous story" });
-  }
-
-  if (nextFileKeys) {
-    controls.push({ keys: nextFileKeys, action: "Next file" });
-  }
-
-  if (prevFileKeys) {
-    controls.push({ keys: prevFileKeys, action: "Previous file" });
-  }
-
-  // Always show exit control
-  controls.push({ keys: "Ctrl+C", action: "Exit" });
+  const controls: Control[] = [
+    { keys: keys.nextKeys, action: "Next story" },
+    { keys: keys.prevKeys, action: "Previous story" },
+    { keys: keys.nextFileKeys, action: "Next file" },
+    { keys: keys.prevFileKeys, action: "Previous file" },
+    { keys: "ctrl+c", action: "Exit" },
+  ];
 
   return (
     <Box marginTop={1} flexDirection="column">

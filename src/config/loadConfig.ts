@@ -41,13 +41,13 @@ export const defaultConfig = {
    *
    * Using arrow keys for navigation:
    * - Shift+Up/Down: Navigate between stories
-   * - Ctrl+Up/Down: Navigate between files
+   * - Shift+Right/Left: Navigate between files
    */
   keyBindings: {
     next: ["shift+down"],
     previous: ["shift+up"],
-    nextFile: ["ctrl+down"],
-    prevFile: ["ctrl+up"],
+    nextFile: ["shift+right"],
+    prevFile: ["shift+left"],
   },
 
   /**

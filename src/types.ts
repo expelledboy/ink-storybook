@@ -138,13 +138,13 @@ export interface StoryWrapperProps {
  */
 export interface KeyboardControlsProps {
   /** Keys for navigating to the next story */
-  nextKeys?: string;
+  nextKeys: string;
   /** Keys for navigating to the previous story */
-  prevKeys?: string;
+  prevKeys: string;
   /** Keys for navigating to the next file */
-  nextFileKeys?: string;
+  nextFileKeys: string;
   /** Keys for navigating to the previous file */
-  prevFileKeys?: string;
+  prevFileKeys: string;
   /** Whether to show controls */
   showControls?: boolean;
 }
