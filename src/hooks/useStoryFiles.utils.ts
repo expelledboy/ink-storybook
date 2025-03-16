@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs";
 import { pathToFileURL } from "url";
 import type { StoryFile, StoryExport } from "../types.js";
-import { ensureAbsolutePath } from "../utils/path.js";
+import { ensureAbsolutePath, findFilesRecursively } from "../utils/file.js";
 
 // --- Constants ---
 
@@ -131,11 +131,11 @@ export function findFilesAndDependencies(directory: string) {
     // Ensure directory is an absolute path
     const absoluteDir = ensureAbsolutePath(directory);
 
-    // Get story files from directory
-    const storyFiles = fs
-      .readdirSync(absoluteDir)
-      .filter((file) => isStoryFile(file))
-      .map((file) => path.join(absoluteDir, file));
+    // Get all files recursively
+    const allFiles = findFilesRecursively(absoluteDir);
+
+    // Filter for story files
+    const storyFiles = allFiles.filter((file) => isStoryFile(file));
 
     // Verify all story file paths are absolute
     const absoluteStoryFiles = storyFiles.map(ensureAbsolutePath);

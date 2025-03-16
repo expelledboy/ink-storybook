@@ -9,7 +9,7 @@ import React from "react";
 import { StorybookApp } from "../runtime/StorybookApp.js";
 import { loadConfigFile } from "../config/loadConfig.js";
 import { StoryWrapper as DefaultStoryWrapper } from "../components/StoryWrapper.js";
-import { ensureAbsolutePath } from "../utils/path.js";
+import { ensureAbsolutePath } from "../utils/file.js";
 
 // Define CLI arguments
 const { values } = parseArgs({

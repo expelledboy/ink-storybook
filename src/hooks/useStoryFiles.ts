@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import chokidar from "chokidar";
 import type { StoryFile } from "../types.js";
-import { ensureAbsolutePath } from "../utils/path.js";
+import { ensureAbsolutePath } from "../utils/file.js";
+
 // Import only the essential utilities
 import {
   isStoryFile,
