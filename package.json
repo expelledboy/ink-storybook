@@ -1,6 +1,6 @@
 {
   "name": "@expelledboy/ink-storybook",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "A storybook-like library for Ink terminal applications",
   "type": "module",
   "main": "dist/index.js",
