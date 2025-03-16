@@ -36,10 +36,20 @@ export function useStoryFiles(storybookLocation: string) {
       setLoadedFiles(sortStoryFiles([...fileMap.values()]));
     };
 
+    // Find story files
+    const absoluteDir = ensureAbsolutePath(storybookLocation);
+    const { storyFiles, dependencies } = findFilesAndDependencies(absoluteDir);
+
+    if (storyFiles.length === 0) {
+      setError("No story files found in " + absoluteDir);
+      setLoading(false);
+      return;
+    }
+
     // Initialize watcher with good defaults
-    const watcher = chokidar.watch([], {
+    const watcher = chokidar.watch([absoluteDir, ...dependencies], {
       persistent: true,
-      ignoreInitial: true,
+      ignoreInitial: false,
     });
 
     // Process a story file (add or update)
@@ -103,56 +113,6 @@ export function useStoryFiles(storybookLocation: string) {
       }
     };
 
-    // Scan directory once at startup
-    const setupInitialFiles = async () => {
-      try {
-        setLoading(true);
-
-        // Find story files
-        const absoluteDir = ensureAbsolutePath(storybookLocation);
-        const { storyFiles, dependencies } =
-          findFilesAndDependencies(absoluteDir);
-
-        if (storyFiles.length === 0) {
-          setError("No story files found in " + absoluteDir);
-          setLoading(false);
-          return;
-        }
-
-        // Set up watch patterns - this automatically tracks what it watches
-        watcher.add([absoluteDir, ...dependencies]);
-
-        // Build dependency map
-        storyFiles.forEach((storyPath) => {
-          const deps = extractImports(storyPath);
-          deps.forEach((dep) => {
-            if (!depMap.has(dep)) depMap.set(dep, new Set());
-            depMap.get(dep)!.add(storyPath);
-          });
-        });
-
-        // Process initial files in parallel
-        const stories = await Promise.all(storyFiles.map(loadStoryFile));
-
-        // Store loaded stories in file map
-        stories.filter(Boolean).forEach((story) => {
-          if (story) fileMap.set(story.filePath, story);
-        });
-
-        DEBUG && console.log("chokidar watched", watcher.getWatched());
-
-        // Update React state
-        syncState();
-        setError(null);
-      } catch (err) {
-        setError(
-          `Setup error: ${err instanceof Error ? err.message : String(err)}`
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
     // Event handling - single source of truth from filesystem events
     watcher
       .on("add", (filePath) => {
@@ -194,9 +154,6 @@ export function useStoryFiles(storybookLocation: string) {
           removeStoryFile(filePath);
         }
       });
-
-    // Start watching (without awaiting)
-    setupInitialFiles();
 
     // Clean up when unmounting
     return () => {
