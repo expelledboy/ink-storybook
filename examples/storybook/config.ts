@@ -13,6 +13,11 @@ export default {
   sidebarWidth: 35,
 
   /**
+   * Custom Preview component
+   */
+  previewPath: "./examples/storybook/Preview.tsx",
+
+  /**
    * Custom theme colors
    */
   theme: {

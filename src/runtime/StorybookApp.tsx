@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Text, useApp, useInput } from "ink";
 import { Sidebar } from "../components/Sidebar.js";
-import { StoryWrapper } from "../components/StoryWrapper.js";
+
 import {
   createKeyboardNavigationHandler,
   type NavigationActions,
@@ -19,7 +19,10 @@ import { useStoryFiles } from "../hooks/useStoryFiles.js";
  * - Rendering the current story
  * - Keyboard navigation
  */
-export function StorybookApp({ config }: StorybookAppProps) {
+export function StorybookApp({
+  config,
+  renderStoryWrapper,
+}: StorybookAppProps) {
   const { exit } = useApp();
   const [activeFileIndex, setActiveFileIndex] = useState(0);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
@@ -143,7 +146,7 @@ export function StorybookApp({ config }: StorybookAppProps) {
 
       {/* Main content */}
       <Box
-        borderStyle="single"
+        borderStyle="round"
         borderColor={config.theme.secondary}
         padding={1}
         flexDirection="column"
@@ -157,12 +160,11 @@ export function StorybookApp({ config }: StorybookAppProps) {
 
         {/* Story content */}
         {currentStory ? (
-          <StoryWrapper
-            title={`${currentFile.name} / ${currentStory.title}`}
-            description={currentStory.description}
-          >
-            {currentStory.component}
-          </StoryWrapper>
+          renderStoryWrapper({
+            title: `${currentFile.name} / ${currentStory.title}`,
+            description: currentStory.description,
+            children: currentStory.component,
+          })
         ) : (
           <Text>No story selected</Text>
         )}

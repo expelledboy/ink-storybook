@@ -19,7 +19,7 @@ export const defaultConfig = {
    * Custom Preview component
    * Path should be relative to the project root
    */
-  previewPath: "storybook/Preview.tsx",
+  previewPath: undefined,
 
   /**
    * Theme colors

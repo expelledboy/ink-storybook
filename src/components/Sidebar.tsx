@@ -91,7 +91,7 @@ export function Sidebar({
     <Box
       width={width}
       height="100%"
-      borderStyle="single"
+      borderStyle="round"
       borderColor={theme.secondary}
       flexDirection="column"
       padding={1}

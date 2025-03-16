@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 
+// Register tsx
+import "tsx";
+
 import { parseArgs } from "node:util";
 import { render } from "ink";
 import React from "react";
 import { StorybookApp } from "../runtime/StorybookApp.js";
 import { loadConfigFile } from "../config/loadConfig.js";
-
-// Register tsx
-import "tsx";
+import { StoryWrapper as DefaultStoryWrapper } from "../components/StoryWrapper.js";
+import { ensureAbsolutePath } from "../utils/path.js";
 
 // Define CLI arguments
 const { values } = parseArgs({
@@ -58,10 +60,28 @@ async function run() {
       storybookLocation: values.stories || config.storybookLocation,
     };
 
+    const StoryWrapper =
+      cliConfig.previewPath !== undefined
+        ? await import(ensureAbsolutePath(cliConfig.previewPath)).then(
+            (module) => {
+              console.debug(module);
+
+              if (!module.Preview) {
+                throw new Error(
+                  `Preview component not found in ${cliConfig.previewPath}`
+                );
+              }
+
+              return module.Preview;
+            }
+          )
+        : DefaultStoryWrapper;
+
     // Render the Storybook app with the file paths
     render(
       React.createElement(StorybookApp, {
         config: cliConfig,
+        renderStoryWrapper: StoryWrapper,
       })
     );
   } catch (err) {

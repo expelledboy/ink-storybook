@@ -193,7 +193,7 @@ interface StorybookConfig {
   sidebarWidth: number;  // default: 30
   
   // Path to custom Preview component
-  previewPath: string;  // default: "storybook/Preview.tsx"
+  previewPath: string;  // default: undefined, eg: "storybook/Preview.tsx"
   
   // Theme colors for UI elements
   theme: {
@@ -208,10 +208,10 @@ interface StorybookConfig {
   
   // Keyboard shortcuts for navigation
   keyBindings: {
-    next: string[];      // default: ["shift+right"]
-    previous: string[];  // default: ["shift+left"]
-    nextFile: string[];  // default: ["right"]
-    prevFile: string[];  // default: ["left"]
+    next: string[];      // default: ["shift+down"]
+    previous: string[];  // default: ["shift+up"]
+    nextFile: string[];  // default: ["shift+right"]
+    prevFile: string[];  // default: ["shift+left"]
   };
 }
 ```

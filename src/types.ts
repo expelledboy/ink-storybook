@@ -237,4 +237,9 @@ export interface StorybookAppProps {
    * Storybook configuration
    */
   config: StorybookConfig;
+
+  /**
+   * Render the StoryWrapper component
+   */
+  renderStoryWrapper: (props: StoryWrapperProps) => ReactNode;
 }

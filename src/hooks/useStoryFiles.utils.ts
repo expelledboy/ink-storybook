@@ -1,22 +1,13 @@
-import { pathToFileURL } from "url";
-import type { StoryFile, StoryExport } from "../types.js";
 import path from "path";
 import fs from "fs";
+import { pathToFileURL } from "url";
+import type { StoryFile, StoryExport } from "../types.js";
+import { ensureAbsolutePath } from "../utils/path.js";
 
 // --- Constants ---
+
 export const STORY_FILE_REGEX = /\.story\.(tsx|jsx|ts|js)$/;
 export const FILE_EXTENSIONS = [".ts", ".tsx", ".js", ".jsx"];
-
-// --- Path Utilities ---
-
-/**
- * Ensures a path is absolute, converting relative paths to absolute
- */
-export function ensureAbsolutePath(filePath: string): string {
-  return path.isAbsolute(filePath)
-    ? filePath
-    : path.resolve(process.cwd(), filePath);
-}
 
 // --- File Processing Functions ---
 

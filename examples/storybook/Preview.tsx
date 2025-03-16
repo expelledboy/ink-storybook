@@ -20,26 +20,24 @@ interface PreviewProps {
 export function Preview({ children, title, description }: PreviewProps) {
   return (
     <Box flexDirection="column" marginBottom={2}>
-      <Box marginBottom={1} borderStyle="bold">
-        <Text bold color="green">
-          {title}
-        </Text>
+      <Box marginBottom={1}>
+        <Text color="white">{title}</Text>
       </Box>
 
       {description && (
         <Box marginBottom={1} paddingX={1}>
-          <Text italic color="gray">
-            {description}
+          <Text italic color="blue">
+            {">"} {description}
           </Text>
         </Box>
       )}
 
-      <Box borderStyle="double" paddingX={2} paddingY={1} borderColor="green">
+      <Box borderStyle="round" paddingX={2} paddingY={1} borderColor="yellow">
         {children}
       </Box>
 
       <Box marginTop={1} paddingX={1}>
-        <Text dimColor>Custom Preview Component</Text>
+        <Text dimColor>This is a custom preview component</Text>
       </Box>
     </Box>
   );
