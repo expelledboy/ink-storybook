@@ -1,8 +1,7 @@
 #!/bin/sh
 
-
 # Run the example
-node --no-warnings --loader @swc-node/register/esm \
+node --no-warnings --import tsx \
     src/cli/index.ts \
-        -c examples/storybook/config.js \
-        -s examples
+        -c examples/storybook/config.ts \
+        "$@"

@@ -197,6 +197,11 @@ export interface SidebarProps {
    * Whether to show the controls
    */
   showControls?: boolean;
+
+  /**
+   * Whether stories are currently loading
+   */
+  loading?: boolean;
 }
 
 /**
@@ -228,11 +233,6 @@ export interface StoryExport {
  * Props for the StorybookApp component
  */
 export interface StorybookAppProps {
-  /**
-   * Array of story file paths to load
-   */
-  storyFiles: string[];
-
   /**
    * Storybook configuration
    */

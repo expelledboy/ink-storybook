@@ -10,14 +10,6 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
-    },
-    "./cli": {
-      "import": "./dist/cli/index.js",
-      "types": "./dist/cli/index.d.ts"
-    },
-    "./ts": {
-      "import": "./bin/ts-ink-storybook.ts",
-      "types": "./bin/ts-ink-storybook.ts"
     }
   },
   "files": [
@@ -29,26 +21,24 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "dev": "tsc -w",
     "prepublishOnly": "npm run build",
     "example": "sh ./run-example.sh",
-    "test": "CI=true bash ./tests/run-test.sh",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
     "postbuild": "chmod +x dist/cli/index.js",
     "prepare": "npm run build",
     "version": "npm run build",
     "postversion": "git push && git push --tags",
-    "storybook:ts": "npx . -s examples"
+    "storybook": "npx . -c examples/storybook/config.ts"
   },
   "dependencies": {
+    "chokidar": "^4.0.3",
     "ink": ">=3.0.0",
     "react": ">=17.0.0",
     "tsx": "^4.19.3"
   },
   "devDependencies": {
-    "@swc-node/register": "^1.8.0",
-    "@swc/core": "^1.11.9",
+    "@types/chokidar": "^1.7.5",
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",
     "typescript": "^5.3.3"

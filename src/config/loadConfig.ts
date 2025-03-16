@@ -40,20 +40,20 @@ export const defaultConfig = {
    * Key bindings for navigation
    *
    * Using arrow keys for navigation:
-   * - Up/Down: Navigate between stories
-   * - Shift+Up/Down: Navigate between files
+   * - Shift+Up/Down: Navigate between stories
+   * - Ctrl+Up/Down: Navigate between files
    */
   keyBindings: {
     next: ["shift+down"],
     previous: ["shift+up"],
-    nextFile: ["down"],
-    prevFile: ["up"],
+    nextFile: ["ctrl+down"],
+    prevFile: ["ctrl+up"],
   },
 
   /**
    * Location of the storybook files
    */
-  storybookLocation: "./stories",
+  storybookLocation: "./src",
 };
 
 /**

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Text } from "ink";
 import type { SidebarProps } from "../types.js";
 import { KeyboardControls } from "./KeyboardControls.js";
@@ -27,7 +27,27 @@ export function Sidebar({
     prevFile: ["up"],
   },
   showControls = true,
+  loading = false,
 }: SidebarProps) {
+  // Track delayed loading state to prevent flickering
+  const [delayedLoading, setDelayedLoading] = useState(loading);
+
+  // Add delay before clearing loading state
+  useEffect(() => {
+    if (loading) {
+      // When loading starts, update immediately
+      setDelayedLoading(true);
+    } else {
+      // When loading stops, delay by 200ms before clearing
+      const timer = setTimeout(() => {
+        setDelayedLoading(false);
+      }, 500);
+
+      // Clean up timer if component unmounts or loading changes again
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
+
   if (storyFiles.length === 0) {
     return (
       <Box width={width} borderStyle="single" padding={1}>
@@ -80,6 +100,7 @@ export function Sidebar({
         <Text bold color={theme.primary}>
           STORYBOOK FILES
         </Text>
+        {delayedLoading && <Text color={theme.secondary}> R</Text>}
       </Box>
 
       {/* Display files grouped by category */}

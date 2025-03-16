@@ -41,5 +41,5 @@ export default {
   /**
    * Location of the storybook files
    */
-  storybookLocation: "./stories",
+  storybookLocation: "./examples",
 };

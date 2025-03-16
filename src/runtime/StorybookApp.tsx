@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Box, Text, useApp, useInput } from "ink";
-import path from "path";
 import { Sidebar } from "../components/Sidebar.js";
 import { StoryWrapper } from "../components/StoryWrapper.js";
 import {
@@ -8,22 +7,8 @@ import {
   type NavigationActions,
 } from "../navigation/keyboardNavigation.js";
 import { isInteractive } from "../utils/tty.js";
-import type {
-  StorybookAppProps,
-  StoryFile,
-  StoryExport,
-  Story,
-} from "../types.js";
-import { pathToFileURL } from "url";
-
-/**
- * Convert file path to a display name
- */
-function getFileDisplayName(filePath: string): string {
-  // Get the base filename without extension
-  const basename = path.basename(filePath);
-  return basename.replace(/\.story\.(tsx|jsx|ts|js)$/, "");
-}
+import type { StorybookAppProps } from "../types.js";
+import { useStoryFiles } from "../hooks/useStoryFiles.js";
 
 /**
  * StorybookApp - The main component for the storybook
@@ -34,103 +19,17 @@ function getFileDisplayName(filePath: string): string {
  * - Rendering the current story
  * - Keyboard navigation
  */
-export function StorybookApp({ storyFiles, config }: StorybookAppProps) {
+export function StorybookApp({ config }: StorybookAppProps) {
   const { exit } = useApp();
-  const [loadedFiles, setLoadedFiles] = useState<StoryFile[]>([]);
   const [activeFileIndex, setActiveFileIndex] = useState(0);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { loadedFiles, loading, error } = useStoryFiles(
+    config.storybookLocation
+  );
 
-  // Load all story files
   useEffect(() => {
-    async function loadFiles() {
-      setLoading(true);
-      try {
-        const files: StoryFile[] = [];
-
-        // Process each file
-        for (const filePath of storyFiles) {
-          try {
-            // Dynamically import the story file
-            const imported = await import(pathToFileURL(filePath).href);
-            const storyExport: StoryExport = imported.default || imported;
-
-            if (!storyExport.stories || !Array.isArray(storyExport.stories)) {
-              console.warn(`File ${filePath} does not export stories array.`);
-              continue;
-            }
-
-            // Add to loaded files with metadata if available
-            files.push({
-              filePath,
-              name: getFileDisplayName(filePath),
-              stories: storyExport.stories,
-              meta: storyExport.meta, // Preserve the metadata
-            });
-          } catch (err) {
-            console.error(`Error loading story file ${filePath}:`, err);
-          }
-        }
-
-        // Group files and sort them
-        // First sort by order (if defined) or filename
-        files.sort((a, b) => {
-          // If both files have order, sort by order
-          if (a.meta?.order !== undefined && b.meta?.order !== undefined) {
-            return a.meta.order - b.meta.order;
-          }
-          // If only one has order, prioritize it
-          if (a.meta?.order !== undefined) return -1;
-          if (b.meta?.order !== undefined) return 1;
-          // Otherwise sort by name
-          return a.name.localeCompare(b.name);
-        });
-
-        // Sort files by group (alphabetically) while preserving order within groups
-        const groupedFiles = new Map<string, StoryFile[]>();
-        const ungroupedFiles: StoryFile[] = [];
-
-        // Group files
-        files.forEach((file) => {
-          if (file.meta?.group) {
-            const group = file.meta.group;
-            if (!groupedFiles.has(group)) {
-              groupedFiles.set(group, []);
-            }
-            groupedFiles.get(group)!.push(file);
-          } else {
-            ungroupedFiles.push(file);
-          }
-        });
-
-        // Sort groups alphabetically and flatten
-        const sortedFiles: StoryFile[] = [];
-
-        // Add grouped files in alphabetical order of group names
-        Array.from(groupedFiles.keys())
-          .sort()
-          .forEach((group) => {
-            sortedFiles.push(...groupedFiles.get(group)!);
-          });
-
-        // Add ungrouped files at the end
-        sortedFiles.push(...ungroupedFiles);
-
-        setLoadedFiles(sortedFiles);
-        setLoading(false);
-      } catch (err) {
-        setError(
-          `Error loading story files: ${
-            err instanceof Error ? err.message : "Unknown error"
-          }`
-        );
-        setLoading(false);
-      }
-    }
-
-    loadFiles();
-  }, [storyFiles]);
+    if (error) exit();
+  }, [error]);
 
   // Define navigation actions
   const navigationActions: NavigationActions = {
@@ -194,8 +93,8 @@ export function StorybookApp({ storyFiles, config }: StorybookAppProps) {
     setActiveStoryIndex(storyIndex);
   };
 
-  // Render loading state
-  if (loading) {
+  // Render loading state only on initial load when no files are loaded yet
+  if (loading && loadedFiles.length === 0) {
     return (
       <Box>
         <Text>Loading story files...</Text>
@@ -239,6 +138,7 @@ export function StorybookApp({ storyFiles, config }: StorybookAppProps) {
         theme={config.theme}
         keybindings={config.keyBindings}
         showControls={config.showControls}
+        loading={loading}
       />
 
       {/* Main content */}
