@@ -12,6 +12,10 @@ A storybook-like library for Ink terminal applications.
 >
 > To use `ink-storybook`, you MUST install it as a dep.
 
+> [!TIP]
+> If you get `ERROR: Top-level await is currently not supported with the "cjs" output format`
+> Your package must be `"type": "module"`
+
 ## Features
 
 - 📚 Browse and view your components in a storybook interface
