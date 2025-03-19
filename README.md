@@ -4,10 +4,13 @@ A storybook-like library for Ink terminal applications.
 
 ![Git Workflow](docs/t-rec.gif)
 
-	NOTE: This repo is broken since I attempted to implement dynamic
-	      module loading. The complexity of getting React hooks to
-	      work in the same context is beyond me at this point.
-	      Any assistance would be appreciated!
+> [!NOTE]  
+> Calling this repo via `npx` does not work as documented.
+> The complexity of getting React hooks to work in the same
+> context (after going into the black-hole of tsx) is beyond
+> me at this point. Any assistance would be appreciated!
+>
+> To use `ink-storybook`, you MUST install it as a dep.
 
 ## Features
 
@@ -31,6 +34,9 @@ yarn add --dev @expelledboy/ink-storybook
 ```bash
 bun add -D @expelledboy/ink-storybook
 ```
+
+> [!IMPORTANT]  
+> This does not work at present.
 
 ```bash
 npx @expelledboy/ink-storybook
