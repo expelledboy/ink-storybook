@@ -4,6 +4,11 @@ A storybook-like library for Ink terminal applications.
 
 ![Git Workflow](docs/t-rec.gif)
 
+	NOTE: This repo is broken since I attempted to implement dynamic
+	      module loading. The complexity of getting React hooks to
+	      work in the same context is beyond me at this point.
+	      Any assistance would be appreciated!
+
 ## Features
 
 - 📚 Browse and view your components in a storybook interface
